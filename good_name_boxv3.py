@@ -1,6 +1,6 @@
 """
-In this version, I added the functionality to press enter to push the input
-Additionally, the text box clears when the input is given
+In this version, only added a line that gave the entry box widget
+focus when the add button is pressed
 """
 import tkinter as tk
 from tkinter import ttk
@@ -11,6 +11,8 @@ def push_info():
     item = good_entry.get()
     print(f"The user entered: {item}")
     good_entry.delete(0, "end")
+    # Give focus to text box
+    good_entry.focus_set()
 
 
 # Initialise mainframe, declare style

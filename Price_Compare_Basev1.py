@@ -1,6 +1,8 @@
 """
-In this version, I added the functionality to press enter to push the input
-Additionally, the text box clears when the input is given
+Added good_name_boxv3.py to the base program, changed it so it doesn't
+print the output, because that's not what we want to do
+We currently aren't doing anything with the output we get out,
+this will be fixed in the next component
 """
 import tkinter as tk
 from tkinter import ttk
@@ -9,8 +11,9 @@ from tkinter import ttk
 # function that gets input from the box and does stuff with it
 def push_info():
     item = good_entry.get()
-    print(f"The user entered: {item}")
     good_entry.delete(0, "end")
+    # Give focus to text box
+    good_entry.focus_set()
 
 
 # Initialise mainframe, declare style
