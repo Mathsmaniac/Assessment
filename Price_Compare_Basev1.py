@@ -2,7 +2,7 @@
 Added good_name_boxv3.py to the base program, changed it so it doesn't
 print the output, because that's not what we want to do
 We currently aren't doing anything with the output we get out,
-this will be fixed in the next component
+this will be fixed in the next version
 """
 import tkinter as tk
 from tkinter import ttk
