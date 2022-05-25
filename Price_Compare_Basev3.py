@@ -1,7 +1,5 @@
 """
-Added StorageClassv2.py to the base program,
-Integrated it in so that the data entered into the box goes into the system
-prints out the data each time for testing purposes
+Added Not_Blankv3 to the base program,
 """
 import tkinter as tk
 from tkinter import ttk
@@ -11,6 +9,21 @@ from tkinter import ttk
 class Item:
     def __init__(self, name):
         self.name = name
+
+
+# Not blank function
+def is_blank(input_):
+    if input_.isspace() or input_ == "":
+        return True
+    else:
+        return False
+
+
+# Shows the text
+def makeerror():
+    error_label.configure(text="This can't be blank")
+    # Hides the text
+    root.after(5000, lambda: error_label.configure(text=""))
 
 
 # Make an easy storing function
@@ -33,8 +46,11 @@ def push_info():
     good_entry.delete(0, "end")
     # Give focus to text box
     good_entry.focus_set()
-    # Put data into storage system
-    store(good)
+    # If not blank, put data into storage system
+    if is_blank(good):
+        makeerror()
+    else:
+        store(good)
     # Print all stuff in system for testing purposes
     print()
     for good_ in items:
@@ -51,6 +67,8 @@ root.geometry("700x600")
 root.configure(background="#97dbe5")
 s.configure("TFrame", borderwidth=5, relief="ridge", background="#02fa82")
 s.configure("PadFrame.TFrame", borderwidth=0, relief="", background="#97dbe5")
+s.configure("Error.TLabel", foreground="red", background="#02fa82")
+
 
 # Create frames
 pad_frame = ttk.Frame(root, width=150, height=150, style="PadFrame.TFrame")
@@ -59,6 +77,8 @@ mainframe = ttk.Frame(root, padding="15")
 mainframe.grid(row=1, column=1, sticky=("n", "w", "e", "s"))
 
 # Create widgets
+error_label = ttk.Label(mainframe, style="Error.TLabel")
+error_label.grid(row=0, column=0, sticky=("s", "w"))
 good_entry = ttk.Entry(mainframe, width=20)
 good_entry.grid(row=1, column=0, sticky="n")
 push_info_button = ttk.Button(mainframe, text="Add", command=push_info)
@@ -68,7 +88,9 @@ push_info_button.grid(row=2, column=0, sticky="s")
 good_entry.bind("<Return>", lambda event: push_info())
 
 # Add padding to widgets
-for child in mainframe.winfo_children():
-    child.grid_configure(padx=5, pady=5)
-items = []
+push_info_button.grid_configure(padx=5, pady=5)
+
+# Set focus to first widget
+good_entry.focus_set()
+
 tk.mainloop()
