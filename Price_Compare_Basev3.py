@@ -78,11 +78,11 @@ mainframe.grid(row=1, column=1, sticky=("n", "w", "e", "s"))
 
 # Create widgets
 error_label = ttk.Label(mainframe, style="Error.TLabel")
-error_label.grid(row=0, column=0, sticky=("s", "w"))
+error_label.grid(row=1, column=0, sticky=("s", "w"))
 good_entry = ttk.Entry(mainframe, width=20)
-good_entry.grid(row=1, column=0, sticky="n")
+good_entry.grid(row=2, column=0, sticky="n")
 push_info_button = ttk.Button(mainframe, text="Add", command=push_info)
-push_info_button.grid(row=2, column=0, sticky="s")
+push_info_button.grid(row=3, column=0, sticky="s")
 
 # Add enter key bind
 good_entry.bind("<Return>", lambda event: push_info())
