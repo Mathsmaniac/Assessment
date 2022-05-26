@@ -1,3 +1,4 @@
+# Check int function
 def check_int(to_check):
     try:
         # Returns false if the code works, if it doesn't the try kicks in

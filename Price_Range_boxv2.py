@@ -1,9 +1,9 @@
 """
-In this version I made a toplevel window that showed up before the main one
-The main window can only be reached by filling in the toplevel correctly
-If the input is incorrect, a clear concise error message will show up
-I added int_checkv2 and also utilised the previously created not_blankv3
-I updated the makeerror function to include a parameter
+An impovement on Price_Range_boxv1
+Toplevel loads up with the entry widget in focus
+The user can press the enter key to submit
+When the button is pressed, if the input is incorrect,
+it gives focus back to the entry widget so the user can try again
 """
 import tkinter as tk
 from tkinter import ttk
@@ -48,7 +48,7 @@ def makeerror(label, error_message):
     root.after(5000, lambda: label.configure(text=""))
 
 
-# Initalise root and the toplevel
+# Initalise root and toplevel
 root = tk.Tk()
 new_window = tk.Toplevel()
 new_window.configure(background="#97dbe5")
@@ -70,6 +70,10 @@ price_range_box.grid(row=1, column=1)
 check_button = ttk.Button(info_frame, text="Ok, go!", command=lambda: check())
 check_button.grid(row=2, column=1)
 check_button.grid_configure(padx=20, pady=5)
+# User can press enter to submit info
+price_range_box.bind("<Return>", lambda event: check())
+# Starts with focus on the entry widget
+price_range_box.focus_set()
 # Hides the main root until it is shown by the check function
 root.withdraw()
 root.mainloop()

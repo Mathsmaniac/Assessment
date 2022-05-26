@@ -1,9 +1,5 @@
 """
-In this version I made a toplevel window that showed up before the main one
-The main window can only be reached by filling in the toplevel correctly
-If the input is incorrect, a clear concise error message will show up
-I added int_checkv2 and also utilised the previously created not_blankv3
-I updated the makeerror function to include a parameter
+In this version I simply added some information labels to the toplevel
 """
 import tkinter as tk
 from tkinter import ttk
@@ -48,7 +44,7 @@ def makeerror(label, error_message):
     root.after(5000, lambda: label.configure(text=""))
 
 
-# Initalise root and the toplevel
+# Initalise root and toplevel
 root = tk.Tk()
 new_window = tk.Toplevel()
 new_window.configure(background="#97dbe5")
@@ -58,6 +54,7 @@ s = ttk.Style()
 s.configure("PadFrame.TFrame", borderwidth=0, relief="", background="#97dbe5")
 s.configure("Error.TLabel", foreground="red", background="#02fa82")
 s.configure("TFrame", borderwidth=5, relief="ridge", background="#02fa82")
+s.configure("TLabel", background="#02fa82")
 # Make and grid widgets
 padder = ttk.Frame(new_window, width=100, height=100, style="PadFrame.TFrame")
 padder.grid(row=0, column=0)
@@ -67,9 +64,15 @@ price_range_error = ttk.Label(info_frame, text="", style="Error.TLabel")
 price_range_error.grid(row=0, column=1)
 price_range_box = ttk.Entry(info_frame, width=9)
 price_range_box.grid(row=1, column=1)
+price_range_label = ttk.Label(info_frame, text="Price range:  $")
+price_range_label.grid(row=1, column=0)
 check_button = ttk.Button(info_frame, text="Ok, go!", command=lambda: check())
-check_button.grid(row=2, column=1)
+check_button.grid(row=2, column=0, columnspan=2)
 check_button.grid_configure(padx=20, pady=5)
+# User can press enter to submit info
+price_range_box.bind("<Return>", lambda event: check())
+# Starts with focus on the entry widget
+price_range_box.focus_set()
 # Hides the main root until it is shown by the check function
 root.withdraw()
 root.mainloop()
