@@ -1,5 +1,6 @@
 """
-In this version I simply added some information labels to the toplevel
+In this version I added some information labels to the toplevel
+I also made the program remember the data entered
 """
 import tkinter as tk
 from tkinter import ttk
@@ -27,12 +28,15 @@ def check_int(to_check):
 # If all is well, it destroys the toplevel and shows the main window
 # If all is not well, it displays the correct error message
 def check():
+    global price_range
     price_range_box.focus_set()
     if is_blank(price_range_box.get()):
         makeerror(price_range_error, "This can't be blank!")
     elif check_int(price_range_box.get()):
         makeerror(price_range_error, "This has to be an integer!")
     else:
+        price_range = price_range_box.get()
+        print(f"The user chose: {price_range}")
         root.deiconify()
         new_window.destroy()
 
@@ -55,6 +59,8 @@ s.configure("PadFrame.TFrame", borderwidth=0, relief="", background="#97dbe5")
 s.configure("Error.TLabel", foreground="red", background="#02fa82")
 s.configure("TFrame", borderwidth=5, relief="ridge", background="#02fa82")
 s.configure("TLabel", background="#02fa82")
+# Make variables
+price_range = 0
 # Make and grid widgets
 padder = ttk.Frame(new_window, width=100, height=100, style="PadFrame.TFrame")
 padder.grid(row=0, column=0)

@@ -58,8 +58,11 @@ def check():
         makeerror(price_range_error, "This has to be an integer!")
     else:
         root.deiconify()
-        new_window.destroy()
         good_entry.focus_set()
+        price_range.set(price_range_box.get())
+        price_range_mainlabel.configure(text=f"Your price range i"
+                                             f"s ${price_range.get():.2f}")
+        new_window.destroy()
 
 
 # function that gets input from the box and does stuff with it
@@ -86,9 +89,10 @@ root = tk.Tk()
 root.title("Price Compare Tool")
 root.geometry("700x600")
 root.configure(background="#97dbe5")
-new_window = tk.Toplevel()
+new_window = tk.Toplevel(root)
 new_window.configure(background="#97dbe5")
 new_window.geometry("400x400")
+
 # Declare style
 s = ttk.Style()
 s.configure("PadFrame.TFrame", borderwidth=0, relief="", background="#97dbe5")
@@ -96,6 +100,8 @@ s.configure("Error.TLabel", foreground="red", background="#02fa82")
 s.configure("TFrame", borderwidth=5, relief="ridge", background="#02fa82")
 s.configure("TLabel", background="#02fa82")
 
+# Declare variables
+price_range = tk.IntVar()
 
 # Create frames
 pad_frame = ttk.Frame(root, width=150, height=150, style="PadFrame.TFrame")
@@ -123,6 +129,8 @@ price_range_label.grid(row=1, column=0)
 check_button = ttk.Button(info_frame, text="Ok, go!", command=lambda: check())
 check_button.grid(row=2, column=0, columnspan=2)
 check_button.grid_configure(padx=20, pady=5)
+price_range_mainlabel = ttk.Label(mainframe, text="")
+price_range_mainlabel.grid(row=0, column=0)
 
 # Add enter key bind
 good_entry.bind("<Return>", lambda event: push_info())
