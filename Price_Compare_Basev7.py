@@ -1,6 +1,6 @@
 """
-Added Amount_of_Units_Boxv1.py
-Tweaked focus so that it is nicer to use
+Added Drop_Down_Listv1.py
+Tweaked the visuals
 """
 import tkinter as tk
 from tkinter import ttk
@@ -12,12 +12,18 @@ class Root(tk.Tk):
         self.price_range = tk.IntVar()
         # Declare style
         s = ttk.Style()
+        s.configure("TFrame", background="#02fa82")
         s.configure("PadFrame.TFrame", borderwidth=0, relief="",
                     background="#97dbe5")
         s.configure("Error.TLabel", foreground="red", background="#02fa82")
-        s.configure("TFrame", borderwidth=5, relief="ridge",
-                    background="#02fa82")
+        s.configure("MainFrame.TFrame", borderwidth=5, relief="ridge")
         s.configure("TLabel", background="#02fa82")
+        s.configure("TMenubutton", background="#009947")
+        s.configure("BigLabel.TLabel", font=("Ariel", 10))
+        # Options for drop down list
+        self.options = ["mg", "g", "kg", "st", "oz", "lb", "t", "mL", "L"]
+        # Variable for item selected for drop down list
+        self.selected = tk.StringVar()
         # Configure window
         self.title("Price Compare Tool")
         self.geometry("700x600")
@@ -27,39 +33,60 @@ class Root(tk.Tk):
                                    style="PadFrame.TFrame")
         self.pad_frame.grid(row=0, column=0)
         # Main frame
-        self.mainframe = ttk.Frame(self, padding="15")
+        self.mainframe = ttk.Frame(self, padding="15",
+                                   style="MainFrame.TFrame")
         self.mainframe.grid(row=1, column=1, sticky=("n", "w", "e", "s"))
         # Error label for good box
         self.error_label = ttk.Label(self.mainframe, style="Error.TLabel")
-        self.error_label.grid(row=1, column=1, sticky=("s", "w"))
+        self.error_label.grid(row=2, column=2, sticky=("s", "w"), columnspan=2)
         # Entry box for good name
         self.good_entry = ttk.Entry(self.mainframe, width=20)
-        self.good_entry.grid(row=2, column=1, sticky="n")
+        self.good_entry.grid(row=3, column=2, sticky="n")
         # Info label
         self.good_entry_info = ttk.Label(self.mainframe, text="Item name: ")
-        self.good_entry_info.grid(row=2, column=0, sticky="e")
+        self.good_entry_info.grid(row=3, column=1, sticky="e")
+        # Drop down list widget
+        self.drop = ttk.OptionMenu(self.mainframe, self.selected,
+                                   self.options[1], *self.options,
+                                   command=lambda event: self.drop_update())
+        self.drop.grid(row=1, column=2, sticky="W", pady=(10, 0))
+        # Drop down list info
+        self.drop_info = ttk.Label(self.mainframe, text="Unit: ")
+        self.drop_info.grid(row=1, column=1, sticky=("E", "S", "N"))
         # Button to store info
         self.push_info_button = ttk.Button(self.mainframe, text="Add",
                                            command=self.push_info)
         self.push_info_button.grid(row=5, column=0, sticky="s", columnspan=5)
         self.push_info_button.grid_configure(padx=5, pady=15)
         # Label for price range
-        self.price_range_mainlabel = ttk.Label(self.mainframe)
-        self.price_range_mainlabel.grid(row=0, column=0, columnspan=2)
+        self.price_range_mainlabel = ttk.Label(self.mainframe,
+                                               style="BigLabel.TLabel")
+        self.price_range_mainlabel.grid(row=0, column=1, columnspan=2)
+        # Frame for all amount of units widgets
+        self.amount_of_units_frame = ttk.Frame(self.mainframe)
+        self.amount_of_units_frame.grid(row=4, column=1, columnspan=3,
+                                        sticky="w")
         # Box for amount of units
-        self.amount_of_units_box = ttk.Entry(self.mainframe, width=7)
-        self.amount_of_units_box.grid(row=4, column=1, sticky="w")
+        self.amount_of_units_box = ttk.Entry(self.amount_of_units_frame,
+                                             width=7)
+        self.amount_of_units_box.grid(row=1, column=1, sticky=("w", "e"))
         # Error label for amount of units
-        self.amount_of_units_error = ttk.Label(self.mainframe,
+        self.amount_of_units_error = ttk.Label(self.amount_of_units_frame,
                                                style="Error.TLabel")
-        self.amount_of_units_error.grid(row=3, column=1, sticky="w")
+        self.amount_of_units_error.grid(row=0, column=1, sticky="w",
+                                        columnspan=3)
         # Info label for amount of units
-        self.amount_of_units_info = ttk.Label(self.mainframe,
+        self.amount_of_units_info = ttk.Label(self.amount_of_units_frame,
                                               text="Amount: ")
-        self.amount_of_units_info.grid(row=4, column=0, sticky="e")
+        self.amount_of_units_info.grid(row=1, column=0, sticky="e")
+        # Other label showing unit type
+        self.unit_type_info = ttk.Label(self.amount_of_units_frame,
+                                        text=self.selected.get())
+        self.unit_type_info.grid(row=1, column=2, sticky="w")
         # Enter key bindings
         self.good_entry.bind("<Return>",
-                             lambda event: self.amount_of_units_box.focus_set())
+                             lambda event: self.amount_of_units_box.focus_set()
+                             )
         self.amount_of_units_box.bind("<Return>",
                                       lambda event: self.push_info())
         # Hide so that it can't be used until first toplevel is completed
@@ -100,6 +127,9 @@ class Root(tk.Tk):
         print()
         for good_ in items:
             print(self.takeaway(good_))
+
+    def drop_update(self):
+        self.unit_type_info.configure(text=self.selected.get())
 
     @staticmethod
     # Not blank function
@@ -231,7 +261,8 @@ class Item:
         self.amount = amount
 
 
-items = []
-root = Root()
-first_window = FirstTopLevel(root)
-tk.mainloop()
+if __name__ == "__main__":
+    items = []
+    root = Root()
+    first_window = FirstTopLevel(root)
+    tk.mainloop()
