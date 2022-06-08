@@ -1,5 +1,5 @@
 """
-Simple box with an error message and an info label
+Put all things in a frame
 """
 import tkinter as tk
 from tkinter import ttk
@@ -49,14 +49,17 @@ root = tk.Tk()
 s = ttk.Style()
 s.configure("Error.TLabel", foreground="red")
 
+# Frame for price box
+price_frame = ttk.Frame(root)
+price_frame.grid(row=1, column=1)
 # Box for price of item
-price_box = ttk.Entry(root)
+price_box = ttk.Entry(price_frame, width=7)
 price_box.grid(row=1, column=1)
 # Error for price of item box
-price_error = ttk.Label(root, style="Error.TLabel")
+price_error = ttk.Label(price_frame, style="Error.TLabel")
 price_error.grid(row=0, column=1)
 # Info label for price of item box
-price_label = ttk.Label(root, text="Price: $")
+price_label = ttk.Label(price_frame, text="Price: $")
 price_label.grid(row=1, column=0, sticky="e")
 # Enter keybind for ease of testing
 price_box.bind("<Return>", lambda event: check())
