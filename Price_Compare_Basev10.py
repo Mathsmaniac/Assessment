@@ -1,6 +1,5 @@
 """
-Price_Of_Item_Boxv2.py
-Fixed int checker to allow floats
+Added calculate_buttonv2.py
 """
 import tkinter as tk
 from tkinter import ttk
@@ -228,7 +227,7 @@ class Root(tk.Tk):
                     first_part += ", with the same value for money, " \
                                 "however these are out of your price range.\n"
                 else:
-                    first_part += "however, this is out of you price range"
+                    first_part += ", however, this is out of your price range"
         # Sort out the ones that are inside the price range
         # And make the response based on how many there are
         if len(ins) < 1:
@@ -380,7 +379,7 @@ class FirstTopLevel(tk.Toplevel):
             root.price_range_mainlabel.configure(
                 text=f"Your price range is "
                 f"${float(root.price_range.get()):.2f}")
-            root.price_range = int(root.price_range.get())
+            root.price_range = float(root.price_range.get())
             self.after_cancel(self)
             self.destroy()
 
@@ -437,6 +436,9 @@ class LastTopLevel(tk.Toplevel):
                   text=self.first_part).grid(row=2, column=0)
         ttk.Label(self.result_frame,
                   text=self.second_part).grid(row=3, column=0)
+        # Add padding to widgets
+        for child in self.result_frame.winfo_children():
+            child.grid_configure(padx=5, pady=5)
         # Give window focus
         self.focus()
         # Make it stay on the window
